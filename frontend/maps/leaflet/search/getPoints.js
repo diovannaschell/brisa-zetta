@@ -1,1 +1,0 @@
-const mockedPoints = require('./mockedPoints.json')
