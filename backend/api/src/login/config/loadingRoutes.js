@@ -1,12 +1,12 @@
 'use strict'
 
-let api = require('./apiConfiguration')
-const Logger = require('../lib/Logger')
+const api = require('./src/config/loadingRoutes');
+const Logger = require('../../../lib/Logger')
 const path = require('path')
 const { readdirSync, statSync } = require('fs')
 
 Logger.trace('initing routes...', 'init')
-const directory = './src'
+const directory = '../'
 
 const loadingResourse = (path) => {
   const resourse = require(`../${path}`)
