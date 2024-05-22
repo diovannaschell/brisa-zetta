@@ -1,6 +1,10 @@
 'use strict'
 
-module.exports.login = async (req, res, next) => {
+const loginSchema = require("./loginSchema")
 
-    return res.send('sim')
+module.exports.login = async (req, res, next) => {
+  const { body } = req
+  await loginSchema.validate(body, res)
+
+  return res.send('sim')
 }
