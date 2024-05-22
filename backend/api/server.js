@@ -8,5 +8,5 @@ const api = require('./config/loadingRoutes')
 const Logger = require('./lib/Logger')
 
 api.listen(PORT, () => {
-    Logger.trace(`Api rodando na porta: ${PORT}`)
+  Logger.trace(`Api rodando na porta: ${PORT}`)
 })
