@@ -1,4 +1,3 @@
-'use strict'
 
 module.exports.translateGeolocations = async (req, res, next) => {
 
