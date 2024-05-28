@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%; /* Ajusta a largura conforme necessário */
+    padding: 20px;
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.formFilter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%; /* Define a largura máxima */
+    max-width: 400px; /* Limita a largura máxima */
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.logo {
+    width: 600px; /* Aumenta o tamanho da logo */
+    margin-bottom: 20px; /* Ajusta o espaço abaixo da logo */
+}
+
+label {
+    font-weight: 600;
+    color: #2559A0;
+}
+
+input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px; /* Aumenta o tamanho do texto nos campos de entrada */
+    color: #2559A0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    background-color: #2559A0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all linear 160ms;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background-color: #1E4A7D;
+}
+
+.side-image-container {
+    width: 20%; /* Ajusta a largura conforme necessário */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.side-image {
+    width: auto;
+    height: 100vh;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+
