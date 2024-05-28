@@ -1,4 +1,4 @@
-const { badRequest, notFound } = require("../../interfaces/errorResponses")
+const { badRequest, notFound } = require("../../lib/errorResponses")
 const jwt = require("../../lib/jwt")
 const loginSchema = require("./loginSchema")
 

@@ -1,9 +1,9 @@
-
-const Coordenates = require('./models/Coordenates')
+const Peoples = require('./models/Peoples')
+const RemainsPeoples = require('./models/RemainsPeoples')
 
 module.exports = ({
-  'coordenates': Coordenates,
-
+  'peoples': Peoples,
+  'remainsPeoples': RemainsPeoples,
 
   undefined: new Error('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO GRAXAAAAAAAAAAAAAAAAAAAAAAAAAA')
 })

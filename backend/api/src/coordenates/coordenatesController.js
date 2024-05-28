@@ -1,6 +1,6 @@
 const mongoOperator = require("../../database/mongo/mongoOperator")
 const { connect, disconnect } = require("../../database/mongo/mongoose")
-const { badRequest } = require("../../interfaces/errorResponses")
+const { badRequest } = require("../../lib/errorResponses")
 const coordenatesSchema = require("./coordenatesSchema")
 
 module.exports.getCoordenates = async (req, res, next) => {
@@ -13,7 +13,7 @@ module.exports.getCoordenates = async (req, res, next) => {
 
   await connect()
 
-  const coordenates = await mongoOperator.get('coordenates', filter)
+  const coordenates = await mongoOperator.get('peoples', filter)
 
   await disconnect()
 
@@ -21,4 +21,8 @@ module.exports.getCoordenates = async (req, res, next) => {
     pointsCounter: coordenates.length,
     points: coordenates
   })
+}
+
+module.exports.importCoordenates = async (req, res, next) => {
+
 }

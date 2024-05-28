@@ -4,8 +4,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 
-import addPoint from './point/addPoint';
-
+import getCoordenatesPoints from './point/getCoordenatesPoints';
 
 // Cria a fonte do vetor
 const vectorSource = new VectorSource();
@@ -14,7 +13,7 @@ const vectorLayer = new VectorLayer({
   source: vectorSource,
 });
 
-const conda = [-52.607841411111295, -27.104277128503973]
+const galeao = [-43.25747587604714, -22.811305750000002]
 
 // Cria o mapa
 const map = new Map({
@@ -26,12 +25,9 @@ const map = new Map({
     vectorLayer,
   ],
   view: new View({
-    center: fromLonLat(conda),
-    zoom: 12,
+    center: fromLonLat(galeao),
+    zoom: 14,
   }),
 });
 
-const point = addPoint(conda);
-
-// Adiciona a feature à fonte do vetor
-vectorSource.addFeature(point);
+getCoordenatesPoints(vectorSource);

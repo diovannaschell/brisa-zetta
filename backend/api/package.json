@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
+    "importrc": "node scripts/importRegisters.js",
+    "searchcd": "node scripts/searchCoordenates.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,6 +22,8 @@
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0",
+    "pg": "^8.11.5",
+    "pg-cursor": "^2.10.5",
     "upgrade": "^1.1.0"
   },
   "devDependencies": {
