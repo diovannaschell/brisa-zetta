@@ -1,5 +1,5 @@
-const host = 'http://192.168.1.114:3030';
-// const host = 'http://localhost:3030';
+// const host = 'http://192.168.1.114:3030';
+const host = 'http://localhost:3030';
 import axios from 'axios';
 
 import addPoint from './addPoint';
