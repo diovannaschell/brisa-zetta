@@ -1,10 +1,11 @@
+const Logger = require('../../lib/Logger')
 const pg = require('./postgres')
 
 module.exports = ({
   getByCursor: async (query) => {
     const client = await pg.connect()
     if (!client) {
-      console.log('pg client is null')
+      Logger.error('pg client is null')
       return null
     }
 
@@ -13,7 +14,7 @@ module.exports = ({
     try {
       res = await client.query(query)
     } catch (error) {
-      console.log(error.message)
+      Logger.error(error.message)
 
       return
     } finally {

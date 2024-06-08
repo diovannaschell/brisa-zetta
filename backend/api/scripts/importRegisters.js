@@ -2,6 +2,7 @@
 const { getByCursor } = require('../database/postgres/postgresOperator')
 const { connect, disconnect } = require('../database/mongo/mongoose')
 const mo = require('../database/mongo/mongoOperator')
+const Logger = require('../lib/Logger')
 
 const importRegisters = async () => {
   const query = `
@@ -13,9 +14,9 @@ const importRegisters = async () => {
 
   await connect()
 
-  console.log(`data geted by postgres db ${res.length}`)
+  Logger.trace(`data geted by postgres db ${res.length}`)
   await mo.manyInsert('coordenates', res)
-  console.log('data saved in mongo db')
+  Logger.trace('data saved in mongo db')
 
   await disconnect()
 

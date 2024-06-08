@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Logger = require('../../lib/Logger')
 
 require('dotenv/config')
 const { MONGO_ADDRESS } = process.env
@@ -11,12 +12,12 @@ const options = {
 
 module.exports.connect = async () => {
   await mongoose.connect(MONGO_ADDRESS, options)
-    .then(() => console.log('Conectado ao MongoDB!'))
-    .catch(err => console.error('Não foi possível conectar ao MongoDB...', err));
+    .then(() => Logger.trace('Conectado ao MongoDB!'))
+    .catch(err => Logger.error('Não foi possível conectar ao MongoDB...', err));
 }
 
 module.exports.disconnect = async () => {
   mongoose.disconnect()
-    .then(() => console.log('Desconectado do MongoDB!'))
-    .catch(err => console.error('Não foi possível desconectar do MongoDB...', err));
+    .then(() => Logger.trace('Desconectado do MongoDB!'))
+    .catch(err => Logger.error('Não foi possível desconectar do MongoDB...', err));
 }
