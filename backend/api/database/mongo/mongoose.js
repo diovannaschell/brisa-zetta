@@ -4,8 +4,8 @@ const Logger = require('../../lib/Logger')
 require('dotenv/config')
 const { MONGO_ADDRESS } = process.env
 const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
   connectTimeoutMS: 10000,
   serverSelectionTimeoutMS: 10000,
 }
@@ -17,7 +17,7 @@ module.exports.connect = async () => {
 }
 
 module.exports.disconnect = async () => {
-  mongoose.disconnect()
+  await mongoose.disconnect()
     .then(() => Logger.trace('Desconectado do MongoDB!'))
     .catch(err => Logger.error('Não foi possível desconectar do MongoDB...', err));
 }
