@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "serve": "nodemon server.js",
     "importrc": "node scripts/importRegisters.js",
     "searchcd": "node scripts/searchCoordenates.js",
     "test": "echo \"Error: no test specified\" && exit 1"
