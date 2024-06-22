@@ -13,8 +13,13 @@ export default async (vectorSource) => {
 
   for (const coordenate of data.points) {
     const location = coordenate.location.coordinates
-    const point = addPoint(location);
+    const persona = {
+      name: coordenate.nome
+    }
+    const point = addPoint(location, persona);
 
     vectorSource.addFeature(point);
+
+    
   }
 }

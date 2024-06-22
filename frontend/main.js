@@ -1,18 +1,62 @@
 import 'ol/ol.css';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
+import { Overlay } from 'ol';
+// import 'bootstrap';
+
 import getCoordenatesPoints from './point/getCoordenatesPoints';
 import { mapconfig } from './map/mapConfig';
+import { vectorCreate } from './map/vectorCreate';
 
-// Cria a fonte do vetor
-const vectorSource = new VectorSource();
-// Cria a camada do vetor
-const vectorLayer = new VectorLayer({
-  source: vectorSource,
-});
+const initialPoint = [-43.25747587604714, -22.811305750000002]
 
-const galeao = [-43.25747587604714, -22.811305750000002]
+const { vectorSource, vectorLayer } = vectorCreate();
 
-mapconfig(vectorLayer, galeao);
+const map = mapconfig(vectorLayer, initialPoint);
 
 getCoordenatesPoints(vectorSource);
+
+const element = document.getElementById('popup');
+
+const popup = new Overlay({
+  element: element,
+  positioning: 'bottom-center',
+  stopEvent: false,
+});
+map.addOverlay(popup);
+
+let popover;
+function disposePopover() {
+  if (popover) {
+    popover.dispose();
+    popover = undefined;
+  }
+}
+// display popup on click
+map.on('click', function (evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    return feature;
+  });
+  disposePopover();
+  if (!feature) {
+    return;
+  }
+  popup.setPosition(evt.coordinate);
+
+  $(function () {
+    popover = new bootstrap.Popover(element, {
+      placement: 'top',
+      html: true,
+      content: feature.get('name'),
+    });
+    popover.show();
+  });
+});
+
+// change mouse cursor when over marker
+map.on('pointermove', function (e) {
+  const pixel = map.getEventPixel(e.originalEvent);
+  const hit = map.hasFeatureAtPixel(pixel);
+  map.getTarget().style.cursor = hit ? 'pointer' : '';
+});
+// Close the popup when the map is moved
+map.on('movestart', disposePopover);
+
