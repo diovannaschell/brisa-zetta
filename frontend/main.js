@@ -64,3 +64,24 @@ map.on('pointermove', function (evt) {
     $(container).popover('dispose');
   }
 });
+
+document.getElementById('filterForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const segmento = document.getElementById('segmento').value;
+  const nome = document.getElementById('nome').value;
+  const cidade = document.getElementById('cidade').value;
+  const bairro = document.getElementById('bairro').value;
+  // Lógica para processar os filtros e atualizar o mapa conforme necessário
+});
+
+$(function() {
+  $("#filterContainer").draggable().resizable({
+    handles: "e, s, se"
+  });
+
+  $("#filterHeader").on('click', function() {
+    $("#filterForm").slideToggle();
+    const arrow = $("#toggleFilter").text() === "▼" ? "▲" : "▼";
+    $("#toggleFilter").text(arrow);
+  });
+});

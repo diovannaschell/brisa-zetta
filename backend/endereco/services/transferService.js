@@ -1,3 +1,4 @@
+// services/transferService.js
 const { pool } = require('../config/postgres');
 const { mongoClient, usuariosCollection } = require('../config/mongo');
 const { getCoordinates, findFrequentBairro, findSimilarBairro, findSimilarStreet } = require('../helpers/helper');
@@ -100,4 +101,30 @@ async function transferData() {
   }
 }
 
-module.exports = { transferData };
+async function handlePostgresNotification(payload) {
+  if (payload.action === 'UPDATE' && payload.table === 'clientes') {
+    const { id, nome, endereco, bairro, municipio, uf } = payload.data;
+
+    // Formate o endereço para buscar coordenadas
+    let address = `${endereco}, ${bairro}, ${municipio}, ${uf}`;
+    let coordinates = await getCoordinates(address);
+    
+    if (!coordinates) {
+      // Tente métodos alternativos para encontrar coordenadas
+      address = `${municipio}, ${uf}`;
+      coordinates = await getCoordinates(address);
+    }
+
+    if (coordinates) {
+      const { lat, lon } = coordinates;
+      const updateFields = { nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon };
+
+      // Atualize o documento no MongoDB
+      await usuariosCollection.updateOne({ id }, { $set: updateFields });
+    } else {
+      console.error('Endereço não encontrado para atualização:', address);
+    }
+  }
+}
+
+module.exports = { transferData, handlePostgresNotification };
