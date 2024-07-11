@@ -11,8 +11,8 @@ async function transferData() {
 
   try {
     const cursorQuery = lastProcessedId ? 
-      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas WHERE id > $1 ORDER BY id` :
-      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas ORDER BY id`;
+      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa WHERE id > $1 ORDER BY id` :
+      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa ORDER BY id`;
     const cursor = lastProcessedId ? client.query(new Cursor(cursorQuery, [lastProcessedId])) : client.query(new Cursor(cursorQuery));
 
     const readNextBatch = () => {
