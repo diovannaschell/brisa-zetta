@@ -201,20 +201,31 @@
             <button class="button"><a href="filtro.html" target="_blank">Ir para o Mapa</a></button>
             <button class="button"><a href="filtro.html">Novo Filtro</a></button>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <h2 class="section-title">Ticket Médio</h2>
+        <div class="field">
+            <label for="ticketMedio">Ticket Médio:</label>
+            <input type="text" id="ticketMedio" name="ticketMedio" readonly>
+        </div>
+    </div>
     <script>
         $(function() {
             $("#dataFiltro").datepicker({
                 dateFormat: 'dd/mm/yy',
                 showButtonPanel: true,
                 onSelect: function(dateText) {
-                    $("#btnPesquisar").prop("disabled", false);
+                $("#btnPesquisar").prop("disabled", false);
                 }
             });
 
+
+            $("#btnPesquisar").click(async function() {
+                const data = $("#dataFiltro").val();
+                const [day, month, year] = data.split('/');  // Divide a data em dia, mês e ano
+                const formattedDate = `${year}-${month}`;
+                const response = await axios.get(`http://localhost:3030/ticketMedio?data=${formattedDate}`);
+                $("#ticketMedio").val(response.data.ticketMedio);
+              
             $("#btnPesquisar").click(function() {
                 // Simulação de dados fictícios
                 var venda = "R$ 150.000,00";
@@ -233,5 +244,7 @@
             });
         });
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </body>
 </html>

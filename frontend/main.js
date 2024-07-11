@@ -1,37 +1,61 @@
 import 'ol/ol.css';
-import { Map, View } from 'ol';
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
-import { OSM, Vector as VectorSource } from 'ol/source';
-import { fromLonLat } from 'ol/proj';
+import { Overlay } from 'ol';
+// import 'bootstrap';
 
-import addPoint from './point/addPoint';
+import getCoordenatesPoints from './point/getCoordenatesPoints';
+import { mapconfig } from './map/mapConfig';
+import { vectorCreate } from './map/vectorCreate';
 
+const initialPoint = [-43.25747587604714, -22.811305750000002]
 
-// Cria a fonte do vetor
-const vectorSource = new VectorSource();
-// Cria a camada do vetor
-const vectorLayer = new VectorLayer({
-  source: vectorSource,
+const { vectorSource, vectorLayer } = vectorCreate();
+
+const map = mapconfig(vectorLayer, initialPoint);
+
+getCoordenatesPoints(vectorSource);
+
+const element = document.getElementById('popup');
+
+const popup = new Overlay({
+  element: element,
+  positioning: 'bottom-center',
+  stopEvent: false,
+});
+map.addOverlay(popup);
+
+let popover;
+function disposePopover() {
+  if (popover) {
+    popover.dispose();
+    popover = undefined;
+  }
+}
+// display popup on click
+map.on('click', function (evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+    return feature;
+  });
+  disposePopover();
+  if (!feature) {
+    return;
+  }
+  popup.setPosition(evt.coordinate);
+
+  $(function () {
+    popover = new bootstrap.Popover(element, {
+      placement: 'top',
+      html: true,
+      content: feature.get('name'),
+    });
+    popover.show();
+  });
 });
 
-const conda = [-52.607841411111295, -27.104277128503973]
-
-// Cria o mapa
-const map = new Map({
-  target: 'map',
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-    vectorLayer,
-  ],
-  view: new View({
-    center: fromLonLat(conda),
-    zoom: 12,
-  }),
+// change mouse cursor when over marker
+map.on('pointermove', function (e) {
+  const pixel = map.getEventPixel(e.originalEvent);
+  const hit = map.hasFeatureAtPixel(pixel);
+  map.getTarget().style.cursor = hit ? 'pointer' : '';
 });
-
-const point = addPoint(conda);
-
-// Adiciona a feature à fonte do vetor
-vectorSource.addFeature(point);
+// Close the popup when the map is moved
+map.on('movestart', disposePopover);

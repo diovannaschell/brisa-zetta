@@ -5,20 +5,29 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "serve": "nodemon server.js",
+    "importrc": "node scripts/importRegisters.js",
+    "searchcd": "node scripts/searchCoordenates.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "eslint": "^9.1.0",
+    "eslint": "^9.3.0",
     "express": "^4.19.2",
     "joi": "^17.13.1",
-    "mongoose": "^8.3.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0",
+    "pg": "^8.11.5",
+    "pg-cursor": "^2.10.5",
     "upgrade": "^1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.1"
   }
 }

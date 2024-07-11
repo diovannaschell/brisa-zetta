@@ -1,13 +1,15 @@
 const Joi = require('joi')
 
 const schema = Joi.object({
-  username: Joi.string()
+  state: Joi.string()
     .alphanum()
-    .required(),
-
-  password: Joi.string()
+    .optional(),
+  city: Joi.string()
     .alphanum()
-    .required(),
+    .optional(),
+  neighborhood: Joi.string()
+    .alphanum()
+    .optional(),
 })
 
 module.exports.validate = async (body) => {

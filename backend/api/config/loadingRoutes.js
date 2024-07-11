@@ -1,4 +1,3 @@
-'use strict'
 
 let api = require('./apiConfiguration')
 const Logger = require('../lib/Logger')
