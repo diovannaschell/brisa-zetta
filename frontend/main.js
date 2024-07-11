@@ -59,4 +59,3 @@ map.on('pointermove', function (e) {
 });
 // Close the popup when the map is moved
 map.on('movestart', disposePopover);
-
