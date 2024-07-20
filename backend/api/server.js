@@ -1,5 +1,5 @@
 
-require('dotenv/config')
+require('dotenv').config()
 const { PORT } = process.env
 
 const api = require('./config/loadingRoutes')
