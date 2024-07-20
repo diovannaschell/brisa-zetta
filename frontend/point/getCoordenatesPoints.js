@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import addPoint from './addPoint';
 
-export default async (vectorSource) => {
+export default async (vectorSource, heatmapSource) => {
   const url = `${host}/coordenates`;
   const options = {
     validateStatus: () => true
@@ -19,7 +19,7 @@ export default async (vectorSource) => {
     const point = addPoint(location, persona);
 
     vectorSource.addFeature(point);
-
+    heatmapSource.addFeature(point);
     
   }
 }

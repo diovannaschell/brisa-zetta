@@ -11,8 +11,8 @@ async function transferData() {
 
   try {
     const cursorQuery = lastProcessedId ? 
-      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa WHERE id > $1 ORDER BY id` :
-      `SELECT id, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa ORDER BY id`;
+      `SELECT id,cli_cod, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa WHERE id > $1 ORDER BY id` :
+      `SELECT id,cli_cod, nome, endereco, bairro, municipio, uf FROM pessoas p INNER JOIN "CLIENTES" c ON p.id = c.pessoa ORDER BY id`;
     const cursor = lastProcessedId ? client.query(new Cursor(cursorQuery, [lastProcessedId])) : client.query(new Cursor(cursorQuery));
 
     const readNextBatch = () => {
@@ -32,8 +32,8 @@ async function transferData() {
         }
 
         for (let row of rows) {
-          const { id, nome, endereco, bairro, municipio, uf } = row;
-          let address = `${endereco}, ${bairro}, ${municipio}, ${uf}`;
+          const { id, cli_cod, nome, endereco, bairro, municipio, uf } = row;
+          let address = `${cli_cod}, ${endereco}, ${bairro}, ${municipio}, ${uf}`;
           let coordinates = await getCoordinates(address);
 
           if (!coordinates) {
@@ -74,17 +74,17 @@ async function transferData() {
 
           if (coordinates) {
             const { lat, lon } = coordinates;
-            const existingUser = await usuariosCollection.findOne({ nome, endereco, bairro, municipio, uf });
+            const existingUser = await usuariosCollection.findOne({cli_cod, nome, endereco, bairro, municipio, uf });
             if (!existingUser) {
               await usuariosCollection.insertOne({
-                nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon
+                cli_cod, nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon
               });
-              console.log('Dados cadastrados:', { nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon });
+              console.log('Dados cadastrados:', { cli_cod, nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon });
             } else {
-              console.log('Usuário já existe e não foi duplicado:', { nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon });
+              console.log('Usuário já existe e não foi duplicado:', { cli_cod, nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon });
             }
           } else {
-            console.log('Endereço não encontrado para:', { nome, endereco, bairro, municipio, uf });
+            console.log('Endereço não encontrado para:', { cli_cod, nome, endereco, bairro, municipio, uf });
           }
           writeCheckpoint(id); // Atualiza o checkpoint com o último ID processado
         }
