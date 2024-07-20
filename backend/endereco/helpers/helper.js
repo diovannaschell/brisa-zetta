@@ -21,12 +21,18 @@ async function findFrequentBairro(municipio, uf) {
 
 async function findSimilarBairro(bairro, municipio, uf) {
   const bairros = await usuariosCollection.distinct("bairro", { municipio, uf });
+  if (bairros.length === 0) {
+    return null;
+  }
   const matches = stringSimilarity.findBestMatch(bairro, bairros);
   return matches.bestMatch.target;
 }
 
 async function findSimilarStreet(street, municipio, uf) {
   const streets = await usuariosCollection.distinct("endereco", { municipio, uf });
+  if (streets.length === 0) {
+    return null;
+  }
   const matches = stringSimilarity.findBestMatch(street, streets);
   return matches.bestMatch.target;
 }
