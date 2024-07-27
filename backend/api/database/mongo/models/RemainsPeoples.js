@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const RemainsPeoplesSchema = new Schema({
-  id: Number,
+  cli_cod: Number,
   nome: String,
   cep: String,
   uf: String,
@@ -13,11 +13,11 @@ const RemainsPeoplesSchema = new Schema({
   numero: String,
 }, {
   timestamps: { createdAt: 'data_criacao', updatedAt: 'data_atualizacao' },
-  id: false,
+  cli_cod: false,
   versionKey: false,
 })
 
-RemainsPeoplesSchema.index({ id: 1 }, { unique: true })
+RemainsPeoplesSchema.index({ cli_cod: 1 }, { unique: true })
 RemainsPeoplesSchema.index({ nome: 'text' }, { default_language: 'pt-br' })
 
 module.exports = mongoose.model('RemainsPeoples', RemainsPeoplesSchema)
