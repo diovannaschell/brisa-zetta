@@ -150,4 +150,44 @@ router.get('/count-by-coordinates', async (req, res) => {
     }
   });
 
+  router.put('/update-address', 
+    [
+      check('id').notEmpty().withMessage('ID é obrigatório').isMongoId().withMessage('ID deve ser um ObjectId válido'),
+      check('nome').notEmpty().withMessage('Nome é obrigatório'),
+      check('endereco').notEmpty().withMessage('Endereço é obrigatório'),
+      check('bairro').notEmpty().withMessage('Bairro é obrigatório'),
+      check('municipio').notEmpty().withMessage('Município é obrigatório'),
+      check('uf').notEmpty().withMessage('UF é obrigatório').isLength({ min: 2, max: 2 }).withMessage('UF deve ter 2 caracteres')
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      const { id, nome, endereco, bairro, municipio, uf } = req.body;
+      let address = `${endereco}, ${bairro}, ${municipio}, ${uf}`;
+  
+      try {
+        let coordinates = await getCoordinates(address);
+        if (!coordinates) {
+          return res.status(404).json({ error: 'Endereço não encontrado.' });
+        }
+  
+        const { lat, lon } = coordinates;
+        const updateFields = { nome, endereco, bairro, municipio, uf, latitude: lat, longitude: lon };
+  
+        const result = await usuariosCollection.updateOne({ _id: new ObjectId(id) }, { $set: updateFields });
+  
+        if (result.matchedCount === 0) {
+          res.status(404).json({ error: 'Usuário não encontrado.' });
+        } else {
+          res.status(200).json({ message: 'Usuário atualizado com sucesso.' });
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar usuário no MongoDB', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+      }
+    });
+
 module.exports = router;
