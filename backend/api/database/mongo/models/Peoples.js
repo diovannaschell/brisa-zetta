@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const PeoplesSchema = new Schema({
-  id: Number,
+  cli_cod: Number,
   nome: String,
   cep: String,
   uf: String,
@@ -24,11 +24,11 @@ const PeoplesSchema = new Schema({
   },
 }, {
   timestamps: { createdAt: 'data_criacao', updatedAt: 'data_atualizacao' },
-  id: false,
+  cli_cod: false,
   versionKey: false,
 })
 
-PeoplesSchema.index({ id: 1 }, { unique: true })
+PeoplesSchema.index({ cli_cod: 1 }, { unique: true })
 PeoplesSchema.index({ nome: 'text' }, { default_language: 'pt-br' })
 PeoplesSchema.index({ location: '2dsphere' })
 
